@@ -41,5 +41,10 @@ public class MoradorService {
         }
     }
 
-
+    public void deletarPorId(Long id) {
+        if (!MoradorRepository.existsById(id)) {
+            throw new RuntimeException("Morador não encontrado.");
+        }
+        MoradorRepository.deleteById(id);
+    }
 }

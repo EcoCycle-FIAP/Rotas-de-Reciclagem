@@ -33,4 +33,14 @@ public class AgendamentoController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/agendamentos/{id}")
+    public ResponseEntity<String> deletarPorId(@PathVariable Long id) {
+        try {
+            AgendamentoService.deletarPorId(id);
+            return ResponseEntity.ok("Agendamento excluído com sucesso!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro ao excluir agendamento: " + e.getMessage());
+        }
+    }
 }

@@ -40,5 +40,10 @@ public class CaminhaoService {
         }
     }
 
-
+    public void deletarPorId(Long id) {
+        if (!caminhaoRepository.existsById(id)) {
+            throw new RuntimeException("Caminhão não encontrado.");
+        }
+        caminhaoRepository.deleteById(id);
+    }
 }
