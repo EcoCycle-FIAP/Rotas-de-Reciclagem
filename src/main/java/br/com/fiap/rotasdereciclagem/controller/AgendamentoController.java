@@ -17,6 +17,12 @@ public class AgendamentoController {
     @Autowired
     private AgendamentoService AgendamentoService;
 
+    @PostMapping("/agendamentos")
+    @ResponseStatus(HttpStatus.CREATED)
+    public AgendamentoExibicaoDTO gravar (@RequestBody Agendamento agendamento){
+        return AgendamentoService.gravar(agendamento);
+    }
+
     @GetMapping("/agendamentos")
     @ResponseStatus(HttpStatus.OK)
     public Page<AgendamentoExibicaoDTO> listarTodos(
