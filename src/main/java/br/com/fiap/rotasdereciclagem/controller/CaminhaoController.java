@@ -41,4 +41,14 @@ public class CaminhaoController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/caminhoes/{id}")
+    public ResponseEntity<String> deletarPorId(@PathVariable Long id) {
+        try {
+            caminhaoService.deletarPorId(id);
+            return ResponseEntity.ok("Caminhão excluído com sucesso!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro ao excluir caminhão: " + e.getMessage());
+        }
+    }
 }

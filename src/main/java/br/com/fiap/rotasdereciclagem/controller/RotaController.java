@@ -41,4 +41,14 @@ public class RotaController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/rotas/{id}")
+    public ResponseEntity<String> deletarPorId(@PathVariable Long id) {
+        try {
+            rotaService.deletarPorId(id);
+            return ResponseEntity.ok("Rota excluída com sucesso!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro ao excluir rota: " + e.getMessage());
+        }
+    }
 }

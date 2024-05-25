@@ -33,12 +33,21 @@ public class MoradorController {
             return ResponseEntity.notFound().build();
         }
     }
-
     public ResponseEntity<MoradorExibicaoDTO> buscarPorNome(@RequestParam String nome){
         try{
             return ResponseEntity.ok(MoradorService.buscarPorNome(nome));
         } catch (Exception e){
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/moradores/{id}")
+    public ResponseEntity<String> deletarPorId(@PathVariable Long id) {
+        try {
+            MoradorService.deletarPorId(id);
+            return ResponseEntity.ok("Morador excluído com sucesso!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro ao excluir morador: " + e.getMessage());
         }
     }
 }

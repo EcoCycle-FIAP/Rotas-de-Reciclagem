@@ -31,5 +31,10 @@ public class AgendamentoService {
         }
     }
 
-
+    public void deletarPorId(Long id) {
+        if (!AgendamentoRepository.existsById(id)) {
+            throw new RuntimeException("Agendamento não encontrado.");
+        }
+        AgendamentoRepository.deleteById(id);
+    }
 }

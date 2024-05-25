@@ -31,4 +31,10 @@ public class NotificacaoService {
         }
     }
 
+    public void deletarPorId(Long id) {
+        if (!NotificacaoRepository.existsById(id)) {
+            throw new RuntimeException("Notificação não encontrada.");
+        }
+        NotificacaoRepository.deleteById(id);
+    }
 }

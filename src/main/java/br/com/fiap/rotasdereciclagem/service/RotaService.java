@@ -41,4 +41,10 @@ public class RotaService {
         }
     }
 
+    public void deletarPorId(Long id) {
+        if (!RotaRepository.existsById(id)) {
+            throw new RuntimeException("Rota não encontrada.");
+        }
+        RotaRepository.deleteById(id);
+    }
 }
