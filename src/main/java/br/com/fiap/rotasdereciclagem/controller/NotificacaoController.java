@@ -17,6 +17,12 @@ public class NotificacaoController {
     @Autowired
     private NotificacaoService NotificacaoService;
 
+    @PostMapping("/notificacoes")
+    @ResponseStatus(HttpStatus.CREATED)
+    public NotificacaoExibicaoDTO gravar(@RequestBody Notificacao notificacao){
+        return NotificacaoService.gravar(notificacao);
+    }
+
     @GetMapping("/notificacoes")
     @ResponseStatus(HttpStatus.OK)
     public Page<NotificacaoExibicaoDTO> listarTodos(

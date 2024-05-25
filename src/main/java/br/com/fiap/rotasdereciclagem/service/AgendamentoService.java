@@ -17,6 +17,10 @@ public class AgendamentoService {
     @Autowired
     private AgendamentoRepository AgendamentoRepository;
 
+    public AgendamentoExibicaoDTO gravar(Agendamento agendamento){
+    return new AgendamentoExibicaoDTO(AgendamentoRepository.save(agendamento));
+    }
+
     public Page<AgendamentoExibicaoDTO> listarTodos(Pageable paginacao){
         return AgendamentoRepository.findAll(paginacao).map(AgendamentoExibicaoDTO::new);
     }

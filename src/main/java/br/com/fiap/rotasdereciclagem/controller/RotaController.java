@@ -17,6 +17,13 @@ public class RotaController {
     @Autowired
     private RotaService rotaService;
 
+    @PostMapping("/rotas")
+    @ResponseStatus(HttpStatus.CREATED)
+    public RotaExibicaoDTO gravar(@RequestBody Rota rota){
+        return rotaService.gravar(rota);
+    }
+
+
     @GetMapping("/rotas")
     @ResponseStatus(HttpStatus.OK)
     public Page<RotaExibicaoDTO> listarTodos(

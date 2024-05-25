@@ -17,6 +17,12 @@ public class CaminhaoController {
     @Autowired
     private CaminhaoService caminhaoService;
 
+    @PostMapping("/caminhoes")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CaminhaoExibicaoDTO gravar (@RequestBody Caminhao caminhao) {
+        return caminhaoService.gravar(caminhao);
+    }
+
     @GetMapping("/caminhoes")
     @ResponseStatus(HttpStatus.OK)
     public Page<CaminhaoExibicaoDTO> listarTodos(

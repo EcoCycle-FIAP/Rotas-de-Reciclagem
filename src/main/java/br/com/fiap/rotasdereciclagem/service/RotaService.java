@@ -17,6 +17,10 @@ public class RotaService {
     @Autowired
     private RotaRepository RotaRepository;
 
+    public RotaExibicaoDTO gravar(Rota rota){
+        return new RotaExibicaoDTO((RotaRepository.save(rota)));
+    }
+
     public Page<RotaExibicaoDTO> listarTodos(Pageable paginacao){
         return RotaRepository.findAll(paginacao).map(RotaExibicaoDTO::new);
     }

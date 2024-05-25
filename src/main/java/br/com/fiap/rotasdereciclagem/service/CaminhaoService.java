@@ -16,6 +16,10 @@ public class CaminhaoService {
     @Autowired
     private CaminhaoRepository caminhaoRepository;
 
+    public CaminhaoExibicaoDTO gravar(Caminhao caminhao){
+        return new CaminhaoExibicaoDTO(caminhaoRepository.save(caminhao));
+    }
+
     public Page<CaminhaoExibicaoDTO> listarTodos(Pageable paginacao){
         return caminhaoRepository.findAll(paginacao).map(CaminhaoExibicaoDTO::new);
     }
