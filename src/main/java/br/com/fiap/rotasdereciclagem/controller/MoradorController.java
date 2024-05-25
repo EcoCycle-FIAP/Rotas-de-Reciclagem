@@ -17,6 +17,12 @@ public class MoradorController {
     @Autowired
     private MoradorService MoradorService;
 
+    @PostMapping("/moradores")
+    @ResponseStatus(HttpStatus.CREATED)
+    public MoradorExibicaoDTO gravar(@RequestBody Morador morador){
+        return MoradorService.gravar(morador);
+    }
+
     @GetMapping("/moradores")
     @ResponseStatus(HttpStatus.OK)
     public Page<MoradorExibicaoDTO> listarTodos(
