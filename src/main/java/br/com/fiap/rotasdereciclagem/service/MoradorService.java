@@ -17,6 +17,10 @@ public class MoradorService {
     @Autowired
     private MoradorRepository MoradorRepository;
 
+    public MoradorExibicaoDTO gravar(Morador morador){
+        return new MoradorExibicaoDTO(MoradorRepository.save(morador));
+    }
+
     public Page<MoradorExibicaoDTO> listarTodos(Pageable paginacao){
         return MoradorRepository.findAll(paginacao).map(MoradorExibicaoDTO::new);
     }
