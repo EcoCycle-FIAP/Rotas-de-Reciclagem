@@ -17,6 +17,10 @@ public class NotificacaoService {
     @Autowired
     private NotificacaoRepository NotificacaoRepository;
 
+    public NotificacaoExibicaoDTO gravar(Notificacao notificacao){
+        return new NotificacaoExibicaoDTO((NotificacaoRepository.save(notificacao)));
+    }
+
     public Page<NotificacaoExibicaoDTO> listarTodos(Pageable paginacao) {
         return NotificacaoRepository.findAll(paginacao).map(NotificacaoExibicaoDTO::new);
     }
