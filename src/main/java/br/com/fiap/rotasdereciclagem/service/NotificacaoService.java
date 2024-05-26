@@ -2,6 +2,7 @@ package br.com.fiap.rotasdereciclagem.service;
 
 import java.util.Optional;
 
+import br.com.fiap.rotasdereciclagem.dto.MoradorExibicaoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,18 +16,18 @@ import br.com.fiap.rotasdereciclagem.repository.NotificacaoRepository;
 public class NotificacaoService {
 
     @Autowired
-    private NotificacaoRepository NotificacaoRepository;
+    private NotificacaoRepository notificacaoRepository;
 
     public NotificacaoExibicaoDTO gravar(Notificacao notificacao){
-        return new NotificacaoExibicaoDTO((NotificacaoRepository.save(notificacao)));
+        return new NotificacaoExibicaoDTO((notificacaoRepository.save(notificacao)));
     }
 
     public Page<NotificacaoExibicaoDTO> listarTodos(Pageable paginacao) {
-        return NotificacaoRepository.findAll(paginacao).map(NotificacaoExibicaoDTO::new);
+        return notificacaoRepository.findAll(paginacao).map(NotificacaoExibicaoDTO::new);
     }
 
     public NotificacaoExibicaoDTO buscarPorId(Long id) {
-        Optional<Notificacao> NotificacaoOptional = NotificacaoRepository.findById(id);
+        Optional<Notificacao> NotificacaoOptional = notificacaoRepository.findById(id);
 
         if (NotificacaoOptional.isPresent()) {
             return new NotificacaoExibicaoDTO(NotificacaoOptional.get());
@@ -36,9 +37,20 @@ public class NotificacaoService {
     }
 
     public void deletarPorId(Long id) {
-        if (!NotificacaoRepository.existsById(id)) {
+        if (!notificacaoRepository.existsById(id)) {
             throw new RuntimeException("Notificação não encontrada.");
         }
-        NotificacaoRepository.deleteById(id);
+        notificacaoRepository.deleteById(id);
+    }
+
+    public NotificacaoExibicaoDTO atualizar(Notificacao notificacao) {
+        Optional<Notificacao> notificaoOptional =
+                notificacaoRepository.findById(notificacao.getIdNotificacao());
+
+        if(notificaoOptional.isPresent()){
+            return new NotificacaoExibicaoDTO(notificacaoRepository.save(notificacao));
+        }else{
+            throw new RuntimeException("Notificação não encontrada.");
+        }
     }
 }

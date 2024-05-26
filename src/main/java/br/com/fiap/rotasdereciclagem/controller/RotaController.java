@@ -1,6 +1,9 @@
 package br.com.fiap.rotasdereciclagem.controller;
 
+import br.com.fiap.rotasdereciclagem.dto.NotificacaoExibicaoDTO;
 import br.com.fiap.rotasdereciclagem.dto.RotaExibicaoDTO;
+import br.com.fiap.rotasdereciclagem.model.Notificacao;
+import br.com.fiap.rotasdereciclagem.model.Rota;
 import br.com.fiap.rotasdereciclagem.service.RotaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -57,5 +60,11 @@ public class RotaController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro ao excluir rota: " + e.getMessage());
         }
+    }
+
+    @PutMapping("/rotas")
+    @ResponseStatus(HttpStatus.OK)
+    public RotaExibicaoDTO atualizar(@RequestBody Rota rota){
+        return rotaService.atualizar(rota);
     }
 }

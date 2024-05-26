@@ -1,6 +1,9 @@
 package br.com.fiap.rotasdereciclagem.controller;
 
+import br.com.fiap.rotasdereciclagem.dto.AgendamentoExibicaoDTO;
 import br.com.fiap.rotasdereciclagem.dto.CaminhaoExibicaoDTO;
+import br.com.fiap.rotasdereciclagem.model.Agendamento;
+import br.com.fiap.rotasdereciclagem.model.Caminhao;
 import br.com.fiap.rotasdereciclagem.service.CaminhaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -56,5 +59,11 @@ public class CaminhaoController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro ao excluir caminhão: " + e.getMessage());
         }
+    }
+
+    @PutMapping("/caminhoes")
+    @ResponseStatus(HttpStatus.OK)
+    public CaminhaoExibicaoDTO atualizar(@RequestBody Caminhao caminhao){
+        return caminhaoService.atualizar(caminhao);
     }
 }

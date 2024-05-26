@@ -33,4 +33,51 @@ public class Agendamento {
     @Column(name = "id_morador")
     private Long idMorador;
 
+    public Long getIdAgendamento() {
+        return idAgendamento;
+    }
+
+    public void setIdAgendamento(Long idAgendamento) {
+        this.idAgendamento = idAgendamento;
+    }
+
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
+
+    public String getTipoResiduo() {
+        return tipoResiduo;
+    }
+
+    public void setTipoResiduo(String tipoResiduo) {
+        this.tipoResiduo = tipoResiduo;
+    }
+
+    public Long getQuantidaeLitros() {
+        return quantidaeLitros;
+    }
+
+    public void setQuantidaeLitros(Long quantidaeLitros) {
+        this.quantidaeLitros = quantidaeLitros;
+    }
+
+    public Long getIdCaminhao() {
+        return idCaminhao;
+    }
+
+    public void setIdCaminhao(Long idCaminhao) {
+        this.idCaminhao = idCaminhao;
+    }
+
+    public Long getIdMorador() {
+        return idMorador;
+    }
+
+    public void setIdMorador(Long idMorador) {
+        this.idMorador = idMorador;
+    }
 }
