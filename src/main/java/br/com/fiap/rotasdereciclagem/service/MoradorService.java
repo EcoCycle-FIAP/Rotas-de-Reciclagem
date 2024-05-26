@@ -2,6 +2,7 @@ package br.com.fiap.rotasdereciclagem.service;
 
 import java.util.Optional;
 
+import br.com.fiap.rotasdereciclagem.dto.AgendamentoExibicaoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,18 +16,18 @@ import br.com.fiap.rotasdereciclagem.repository.MoradorRepository;
 public class MoradorService {
 
     @Autowired
-    private MoradorRepository MoradorRepository;
+    private MoradorRepository moradorRepository;
 
     public MoradorExibicaoDTO gravar(Morador morador){
-        return new MoradorExibicaoDTO(MoradorRepository.save(morador));
+        return new MoradorExibicaoDTO(moradorRepository.save(morador));
     }
 
     public Page<MoradorExibicaoDTO> listarTodos(Pageable paginacao){
-        return MoradorRepository.findAll(paginacao).map(MoradorExibicaoDTO::new);
+        return moradorRepository.findAll(paginacao).map(MoradorExibicaoDTO::new);
     }
 
     public MoradorExibicaoDTO buscarPorId(Long id) {
-        Optional<Morador> MoradorOptional = MoradorRepository.findById(id);
+        Optional<Morador> MoradorOptional = moradorRepository.findById(id);
 
         if (MoradorOptional.isPresent()) {
             return new MoradorExibicaoDTO(MoradorOptional.get());
@@ -36,7 +37,7 @@ public class MoradorService {
     }
 
     public MoradorExibicaoDTO buscarPorNome(String nome) {
-        Optional<Morador> MoradorOptional = MoradorRepository.buscarPorNome(nome);
+        Optional<Morador> MoradorOptional = moradorRepository.buscarPorNome(nome);
 
         if (MoradorOptional.isPresent()) {
             return new MoradorExibicaoDTO(MoradorOptional.get());
@@ -46,9 +47,20 @@ public class MoradorService {
     }
 
     public void deletarPorId(Long id) {
-        if (!MoradorRepository.existsById(id)) {
+        if (!moradorRepository.existsById(id)) {
             throw new RuntimeException("Morador não encontrado.");
         }
-        MoradorRepository.deleteById(id);
+        moradorRepository.deleteById(id);
+    }
+
+    public MoradorExibicaoDTO atualizar(Morador morador) {
+        Optional<Morador> moradorOptional =
+                moradorRepository.findById(morador.getIdMorador());
+
+        if(moradorOptional.isPresent()){
+            return new MoradorExibicaoDTO(moradorRepository.save(morador));
+        }else{
+            throw new RuntimeException("Morador não encontrado.");
+        }
     }
 }

@@ -1,6 +1,7 @@
 package br.com.fiap.rotasdereciclagem.controller;
 
 import br.com.fiap.rotasdereciclagem.dto.AgendamentoExibicaoDTO;
+import br.com.fiap.rotasdereciclagem.model.Agendamento;
 import br.com.fiap.rotasdereciclagem.service.AgendamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,12 +16,12 @@ import org.springframework.web.bind.annotation.*;
 public class AgendamentoController {
 
     @Autowired
-    private AgendamentoService AgendamentoService;
+    private AgendamentoService agendamentoService;
 
     @PostMapping("/agendamentos")
     @ResponseStatus(HttpStatus.CREATED)
     public AgendamentoExibicaoDTO gravar (@RequestBody Agendamento agendamento){
-        return AgendamentoService.gravar(agendamento);
+        return agendamentoService.gravar(agendamento);
     }
 
     @GetMapping("/agendamentos")
@@ -28,13 +29,13 @@ public class AgendamentoController {
     public Page<AgendamentoExibicaoDTO> listarTodos(
             @PageableDefault(size = 15)Pageable paginacao
             ){
-        return AgendamentoService.listarTodos(paginacao);
+        return agendamentoService.listarTodos(paginacao);
     }
 
     @GetMapping("/agendamentos/{idAgendamento}")
     public ResponseEntity<AgendamentoExibicaoDTO> buscarPorId(@PathVariable Long idAgendamento){
         try{
-            return ResponseEntity.ok(AgendamentoService.buscarPorId(idAgendamento));
+            return ResponseEntity.ok(agendamentoService.buscarPorId(idAgendamento));
         } catch (Exception e){
             return ResponseEntity.notFound().build();
         }
@@ -43,10 +44,16 @@ public class AgendamentoController {
     @DeleteMapping("/agendamentos/{id}")
     public ResponseEntity<String> deletarPorId(@PathVariable Long id) {
         try {
-            AgendamentoService.deletarPorId(id);
+            agendamentoService.deletarPorId(id);
             return ResponseEntity.ok("Agendamento excluído com sucesso!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro ao excluir agendamento: " + e.getMessage());
         }
+    }
+
+    @PutMapping("/agendamentos")
+    @ResponseStatus(HttpStatus.OK)
+    public AgendamentoExibicaoDTO atualizar(@RequestBody Agendamento agendamento){
+        return agendamentoService.atualizar(agendamento);
     }
 }

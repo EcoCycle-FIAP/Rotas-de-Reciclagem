@@ -2,6 +2,7 @@ package br.com.fiap.rotasdereciclagem.service;
 
 import java.util.Optional;
 
+import br.com.fiap.rotasdereciclagem.dto.NotificacaoExibicaoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,18 +16,18 @@ import br.com.fiap.rotasdereciclagem.repository.RotaRepository;
 public class RotaService {
 
     @Autowired
-    private RotaRepository RotaRepository;
+    private RotaRepository rotaRepository;
 
     public RotaExibicaoDTO gravar(Rota rota){
-        return new RotaExibicaoDTO((RotaRepository.save(rota)));
+        return new RotaExibicaoDTO((rotaRepository.save(rota)));
     }
 
     public Page<RotaExibicaoDTO> listarTodos(Pageable paginacao){
-        return RotaRepository.findAll(paginacao).map(RotaExibicaoDTO::new);
+        return rotaRepository.findAll(paginacao).map(RotaExibicaoDTO::new);
     }
 
     public RotaExibicaoDTO buscarPorId(Long id) {
-        Optional<Rota> RotaOptional = RotaRepository.findById(id);
+        Optional<Rota> RotaOptional = rotaRepository.findById(id);
 
         if (RotaOptional.isPresent()) {
             return new RotaExibicaoDTO(RotaOptional.get());
@@ -36,7 +37,7 @@ public class RotaService {
     }
 
     public RotaExibicaoDTO buscarPorPontosDeColeta(String pontosColeta) {
-        Optional<Rota> RotaOptional = RotaRepository.buscarPorPontosDeColeta(pontosColeta);
+        Optional<Rota> RotaOptional = rotaRepository.buscarPorPontosDeColeta(pontosColeta);
 
         if (RotaOptional.isPresent()) {
             return new RotaExibicaoDTO(RotaOptional.get());
@@ -46,9 +47,20 @@ public class RotaService {
     }
 
     public void deletarPorId(Long id) {
-        if (!RotaRepository.existsById(id)) {
+        if (!rotaRepository.existsById(id)) {
             throw new RuntimeException("Rota não encontrada.");
         }
-        RotaRepository.deleteById(id);
+        rotaRepository.deleteById(id);
+    }
+
+    public RotaExibicaoDTO atualizar(Rota rota) {
+        Optional<Rota> rotaOptional =
+                rotaRepository.findById(rota.getIdRota());
+
+        if(rotaOptional.isPresent()){
+            return new RotaExibicaoDTO(rotaRepository.save(rota));
+        }else{
+            throw new RuntimeException("Rota não encontrada.");
+        }
     }
 }

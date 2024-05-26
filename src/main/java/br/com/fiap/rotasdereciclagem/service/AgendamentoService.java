@@ -15,18 +15,18 @@ import br.com.fiap.rotasdereciclagem.repository.AgendamentoRepository;
 public class AgendamentoService {
 
     @Autowired
-    private AgendamentoRepository AgendamentoRepository;
+    private AgendamentoRepository agendamentoRepository;
 
     public AgendamentoExibicaoDTO gravar(Agendamento agendamento){
-    return new AgendamentoExibicaoDTO(AgendamentoRepository.save(agendamento));
+        return new AgendamentoExibicaoDTO(agendamentoRepository.save(agendamento));
     }
 
     public Page<AgendamentoExibicaoDTO> listarTodos(Pageable paginacao){
-        return AgendamentoRepository.findAll(paginacao).map(AgendamentoExibicaoDTO::new);
+        return agendamentoRepository.findAll(paginacao).map(AgendamentoExibicaoDTO::new);
     }
 
     public AgendamentoExibicaoDTO buscarPorId(Long id) {
-        Optional<Agendamento> AgendamentoOptional = AgendamentoRepository.findById(id);
+        Optional<Agendamento> AgendamentoOptional = agendamentoRepository.findById(id);
 
         if (AgendamentoOptional.isPresent()) {
             return new AgendamentoExibicaoDTO(AgendamentoOptional.get());
@@ -36,9 +36,20 @@ public class AgendamentoService {
     }
 
     public void deletarPorId(Long id) {
-        if (!AgendamentoRepository.existsById(id)) {
+        if (!agendamentoRepository.existsById(id)) {
             throw new RuntimeException("Agendamento não encontrado.");
         }
-        AgendamentoRepository.deleteById(id);
+        agendamentoRepository.deleteById(id);
+    }
+
+    public AgendamentoExibicaoDTO atualizar(Agendamento agendamento) {
+        Optional<Agendamento> agendamentoOptional =
+                agendamentoRepository.findById(agendamento.getIdAgendamento());
+
+        if(agendamentoOptional.isPresent()){
+            return new AgendamentoExibicaoDTO(agendamentoRepository.save(agendamento));
+        }else{
+            throw new RuntimeException("Agendamento não encontrado");
+        }
     }
 }

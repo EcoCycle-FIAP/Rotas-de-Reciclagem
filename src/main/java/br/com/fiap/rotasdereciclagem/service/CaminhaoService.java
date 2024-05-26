@@ -1,6 +1,8 @@
 package br.com.fiap.rotasdereciclagem.service;
 
+import br.com.fiap.rotasdereciclagem.dto.AgendamentoExibicaoDTO;
 import br.com.fiap.rotasdereciclagem.dto.CaminhaoExibicaoDTO;
+import br.com.fiap.rotasdereciclagem.model.Agendamento;
 import br.com.fiap.rotasdereciclagem.model.Caminhao;
 import br.com.fiap.rotasdereciclagem.repository.CaminhaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +51,16 @@ public class CaminhaoService {
             throw new RuntimeException("Caminhão não encontrado.");
         }
         caminhaoRepository.deleteById(id);
+    }
+
+    public CaminhaoExibicaoDTO atualizar(Caminhao caminhao) {
+        Optional<Caminhao> caminhaoOptional =
+                caminhaoRepository.findById(caminhao.getIdCaminhao());
+
+        if(caminhaoOptional.isPresent()){
+            return new CaminhaoExibicaoDTO(caminhaoRepository.save(caminhao));
+        }else{
+            throw new RuntimeException("Caminhão não encontrado.");
+        }
     }
 }

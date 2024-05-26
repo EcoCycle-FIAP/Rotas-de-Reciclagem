@@ -1,6 +1,7 @@
 package br.com.fiap.rotasdereciclagem.controller;
 
 import br.com.fiap.rotasdereciclagem.dto.NotificacaoExibicaoDTO;
+import br.com.fiap.rotasdereciclagem.model.Notificacao;
 import br.com.fiap.rotasdereciclagem.service.NotificacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,12 +16,12 @@ import org.springframework.web.bind.annotation.*;
 public class NotificacaoController {
 
     @Autowired
-    private NotificacaoService NotificacaoService;
+    private NotificacaoService notificacaoService;
 
     @PostMapping("/notificacoes")
     @ResponseStatus(HttpStatus.CREATED)
     public NotificacaoExibicaoDTO gravar(@RequestBody Notificacao notificacao){
-        return NotificacaoService.gravar(notificacao);
+        return notificacaoService.gravar(notificacao);
     }
 
     @GetMapping("/notificacoes")
@@ -28,13 +29,13 @@ public class NotificacaoController {
     public Page<NotificacaoExibicaoDTO> listarTodos(
             @PageableDefault(size = 15)Pageable paginacao
             ){
-        return NotificacaoService.listarTodos(paginacao);
+        return notificacaoService.listarTodos(paginacao);
     }
 
     @GetMapping("/notificacoes/{idNotificacao}")
     public ResponseEntity<NotificacaoExibicaoDTO> buscarPorId(@PathVariable Long idNotificacao){
         try{
-            return ResponseEntity.ok(NotificacaoService.buscarPorId(idNotificacao));
+            return ResponseEntity.ok(notificacaoService.buscarPorId(idNotificacao));
         } catch (Exception e){
             return ResponseEntity.notFound().build();
         }
@@ -43,10 +44,16 @@ public class NotificacaoController {
     @DeleteMapping("/notificacoes/{id}")
     public ResponseEntity<String> deletarPorId(@PathVariable Long id) {
         try {
-            NotificacaoService.deletarPorId(id);
+            notificacaoService.deletarPorId(id);
             return ResponseEntity.ok("Notificação excluída com sucesso!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro ao excluir notificação: " + e.getMessage());
         }
+    }
+
+    @PutMapping("/notificacoes")
+    @ResponseStatus(HttpStatus.OK)
+    public NotificacaoExibicaoDTO atualizar(@RequestBody Notificacao notificacao){
+        return notificacaoService.atualizar(notificacao);
     }
 }
