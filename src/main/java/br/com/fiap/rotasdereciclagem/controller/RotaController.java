@@ -1,10 +1,12 @@
 package br.com.fiap.rotasdereciclagem.controller;
 
 import br.com.fiap.rotasdereciclagem.dto.NotificacaoExibicaoDTO;
+import br.com.fiap.rotasdereciclagem.dto.RotaCadastroDTO;
 import br.com.fiap.rotasdereciclagem.dto.RotaExibicaoDTO;
 import br.com.fiap.rotasdereciclagem.model.Notificacao;
 import br.com.fiap.rotasdereciclagem.model.Rota;
 import br.com.fiap.rotasdereciclagem.service.RotaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,8 +24,9 @@ public class RotaController {
 
     @PostMapping("/rotas")
     @ResponseStatus(HttpStatus.CREATED)
-    public RotaExibicaoDTO gravar(@RequestBody Rota rota){
-        return rotaService.gravar(rota);
+    public RotaExibicaoDTO gravar(@RequestBody @Valid RotaCadastroDTO rotaDTO){
+
+        return rotaService.gravar(rotaDTO);
     }
 
 

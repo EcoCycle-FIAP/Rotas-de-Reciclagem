@@ -1,10 +1,12 @@
 package br.com.fiap.rotasdereciclagem.controller;
 
 import br.com.fiap.rotasdereciclagem.dto.CaminhaoExibicaoDTO;
+import br.com.fiap.rotasdereciclagem.dto.MoradorCadastroDTO;
 import br.com.fiap.rotasdereciclagem.dto.MoradorExibicaoDTO;
 import br.com.fiap.rotasdereciclagem.model.Caminhao;
 import br.com.fiap.rotasdereciclagem.model.Morador;
 import br.com.fiap.rotasdereciclagem.service.MoradorService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,8 +24,8 @@ public class MoradorController {
 
     @PostMapping("/moradores")
     @ResponseStatus(HttpStatus.CREATED)
-    public MoradorExibicaoDTO gravar(@RequestBody Morador morador){
-        return moradorService.gravar(morador);
+    public MoradorExibicaoDTO gravar(@RequestBody @Valid MoradorCadastroDTO moradorDTO){
+        return moradorService.gravar(moradorDTO);
     }
 
     @GetMapping("/moradores")

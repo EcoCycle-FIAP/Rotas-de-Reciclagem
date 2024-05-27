@@ -30,43 +30,4 @@ public class Notificacao {
     @Column(name = "id_morador")
     private Long idMorador;
 
-    public Long getIdNotificacao() {
-        return idNotificacao;
-    }
-
-    public void setIdNotificacao(Long idNotificacao) {
-        this.idNotificacao = idNotificacao;
-    }
-
-    public String getMensagem() {
-        return mensagem;
-    }
-
-    public void setMensagem(String mensagem) {
-        this.mensagem = mensagem;
-    }
-
-    public Date getDataEnvio() {
-        return dataEnvio;
-    }
-
-    public void setDataEnvio(Date dataEnvio) {
-        this.dataEnvio = dataEnvio;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Long getIdMorador() {
-        return idMorador;
-    }
-
-    public void setIdMorador(Long idMorador) {
-        this.idMorador = idMorador;
-    }
 }

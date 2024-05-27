@@ -1,10 +1,11 @@
 package br.com.fiap.rotasdereciclagem.service;
 
-import br.com.fiap.rotasdereciclagem.dto.AgendamentoExibicaoDTO;
+import br.com.fiap.rotasdereciclagem.dto.CaminhaoCadastroDTO;
 import br.com.fiap.rotasdereciclagem.dto.CaminhaoExibicaoDTO;
-import br.com.fiap.rotasdereciclagem.model.Agendamento;
+import br.com.fiap.rotasdereciclagem.exception.CaminhaoNaoEncontradoException;
 import br.com.fiap.rotasdereciclagem.model.Caminhao;
 import br.com.fiap.rotasdereciclagem.repository.CaminhaoRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,8 +19,13 @@ public class CaminhaoService {
     @Autowired
     private CaminhaoRepository caminhaoRepository;
 
-    public CaminhaoExibicaoDTO gravar(Caminhao caminhao){
-        return new CaminhaoExibicaoDTO(caminhaoRepository.save(caminhao));
+    public CaminhaoExibicaoDTO gravar(CaminhaoCadastroDTO caminhaoDTO){
+
+        Caminhao caminhao = new Caminhao();
+        BeanUtils.copyProperties(caminhaoDTO, caminhao);
+
+        Caminhao caminhaoSalvo = caminhaoRepository.save(caminhao);
+        return new CaminhaoExibicaoDTO(caminhaoSalvo);
     }
 
     public Page<CaminhaoExibicaoDTO> listarTodos(Pageable paginacao){
@@ -32,7 +38,7 @@ public class CaminhaoService {
         if (caminhaoOptional.isPresent()) {
             return new CaminhaoExibicaoDTO(caminhaoOptional.get());
         } else {
-            throw new RuntimeException("Não foi encontrado um caminhão com esse id.");
+            throw new CaminhaoNaoEncontradoException("Não foi encontrado um caminhão com esse id.");
         }
     }
 
@@ -42,13 +48,13 @@ public class CaminhaoService {
         if (caminhaoOptional.isPresent()) {
             return new CaminhaoExibicaoDTO(caminhaoOptional.get());
         } else {
-            throw new RuntimeException("Não foi encontrado um caminhão com essa placa.");
+            throw new CaminhaoNaoEncontradoException("Não foi encontrado um caminhão com essa placa.");
         }
     }
 
     public void deletarPorId(Long id) {
         if (!caminhaoRepository.existsById(id)) {
-            throw new RuntimeException("Caminhão não encontrado.");
+            throw new CaminhaoNaoEncontradoException("Caminhão não encontrado.");
         }
         caminhaoRepository.deleteById(id);
     }
@@ -60,7 +66,7 @@ public class CaminhaoService {
         if(caminhaoOptional.isPresent()){
             return new CaminhaoExibicaoDTO(caminhaoRepository.save(caminhao));
         }else{
-            throw new RuntimeException("Caminhão não encontrado.");
+            throw new CaminhaoNaoEncontradoException("Caminhão não encontrado.");
         }
     }
 }

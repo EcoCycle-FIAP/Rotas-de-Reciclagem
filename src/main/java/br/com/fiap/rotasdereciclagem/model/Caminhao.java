@@ -25,43 +25,4 @@ public class Caminhao {
     @Column(name = "capacidade_litros")
     private Long capacidadeLitros;
 
-    public Long getIdCaminhao() {
-        return idCaminhao;
-    }
-
-    public void setIdCaminhao(Long idCaminhao) {
-        this.idCaminhao = idCaminhao;
-    }
-
-    public String getMotorista() {
-        return motorista;
-    }
-
-    public void setMotorista(String motorista) {
-        this.motorista = motorista;
-    }
-
-    public String getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
-    }
-
-    public String getPlaca() {
-        return placa;
-    }
-
-    public void setPlaca(String placa) {
-        this.placa = placa;
-    }
-
-    public Long getCapacidadeLitros() {
-        return capacidadeLitros;
-    }
-
-    public void setCapacidadeLitros(Long capacidadeLitros) {
-        this.capacidadeLitros = capacidadeLitros;
-    }
 }

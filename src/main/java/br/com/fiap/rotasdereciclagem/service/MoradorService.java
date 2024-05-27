@@ -3,9 +3,13 @@ package br.com.fiap.rotasdereciclagem.service;
 import java.util.Optional;
 
 import br.com.fiap.rotasdereciclagem.dto.AgendamentoExibicaoDTO;
+import br.com.fiap.rotasdereciclagem.dto.MoradorCadastroDTO;
+import br.com.fiap.rotasdereciclagem.exception.MoradorNaoEncontradoException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.fiap.rotasdereciclagem.dto.MoradorExibicaoDTO;
@@ -18,8 +22,18 @@ public class MoradorService {
     @Autowired
     private MoradorRepository moradorRepository;
 
-    public MoradorExibicaoDTO gravar(Morador morador){
-        return new MoradorExibicaoDTO(moradorRepository.save(morador));
+    public MoradorExibicaoDTO gravar(MoradorCadastroDTO moradorDTO){
+
+        String senhaCriptografada = new BCryptPasswordEncoder().encode(moradorDTO.senha());
+
+        Morador morador = new Morador();
+        BeanUtils.copyProperties(moradorDTO, morador);
+        morador.setSenha(senhaCriptografada);
+
+        Morador moradorSalvo = moradorRepository.save(morador);
+
+        return new MoradorExibicaoDTO(moradorSalvo);
+
     }
 
     public Page<MoradorExibicaoDTO> listarTodos(Pageable paginacao){
@@ -32,7 +46,7 @@ public class MoradorService {
         if (MoradorOptional.isPresent()) {
             return new MoradorExibicaoDTO(MoradorOptional.get());
         } else {
-            throw new RuntimeException("Não foi encontrado um morador com esse id.");
+            throw new MoradorNaoEncontradoException("Não foi encontrado um morador com esse id.");
         }
     }
 
@@ -42,13 +56,13 @@ public class MoradorService {
         if (MoradorOptional.isPresent()) {
             return new MoradorExibicaoDTO(MoradorOptional.get());
         } else {
-            throw new RuntimeException("Não foi encontrado um caminhão com esse nome.");
+            throw new MoradorNaoEncontradoException("Não foi encontrado um morador com esse nome.");
         }
     }
 
     public void deletarPorId(Long id) {
         if (!moradorRepository.existsById(id)) {
-            throw new RuntimeException("Morador não encontrado.");
+            throw new MoradorNaoEncontradoException("Morador não encontrado.");
         }
         moradorRepository.deleteById(id);
     }
@@ -60,7 +74,7 @@ public class MoradorService {
         if(moradorOptional.isPresent()){
             return new MoradorExibicaoDTO(moradorRepository.save(morador));
         }else{
-            throw new RuntimeException("Morador não encontrado.");
+            throw new MoradorNaoEncontradoException("Morador não encontrado.");
         }
     }
 }

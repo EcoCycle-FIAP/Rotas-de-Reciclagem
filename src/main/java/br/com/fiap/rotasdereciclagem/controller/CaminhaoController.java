@@ -1,10 +1,10 @@
 package br.com.fiap.rotasdereciclagem.controller;
 
-import br.com.fiap.rotasdereciclagem.dto.AgendamentoExibicaoDTO;
+import br.com.fiap.rotasdereciclagem.dto.CaminhaoCadastroDTO;
 import br.com.fiap.rotasdereciclagem.dto.CaminhaoExibicaoDTO;
-import br.com.fiap.rotasdereciclagem.model.Agendamento;
 import br.com.fiap.rotasdereciclagem.model.Caminhao;
 import br.com.fiap.rotasdereciclagem.service.CaminhaoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,8 +22,8 @@ public class CaminhaoController {
 
     @PostMapping("/caminhoes")
     @ResponseStatus(HttpStatus.CREATED)
-    public CaminhaoExibicaoDTO gravar (@RequestBody Caminhao caminhao) {
-        return caminhaoService.gravar(caminhao);
+    public CaminhaoExibicaoDTO gravar (@RequestBody @Valid CaminhaoCadastroDTO caminhaoDTO) {
+        return caminhaoService.gravar(caminhaoDTO);
     }
 
     @GetMapping("/caminhoes")

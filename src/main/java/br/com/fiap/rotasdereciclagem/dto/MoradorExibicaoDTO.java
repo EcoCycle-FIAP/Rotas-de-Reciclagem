@@ -10,7 +10,8 @@ public record MoradorExibicaoDTO(
         String endComplemento,
         String endBairro,
         String email,
-        String telefone
+        String telefone,
+        String senha
 ){
     public MoradorExibicaoDTO(Morador morador) {
         this(
@@ -21,7 +22,8 @@ public record MoradorExibicaoDTO(
                 morador.getEndComplemento(),
                 morador.getEndBairro(),
                 morador.getEmail(),
-                morador.getTelefone()
+                morador.getTelefone(),
+                morador.getSenha()
         );
     }
 }

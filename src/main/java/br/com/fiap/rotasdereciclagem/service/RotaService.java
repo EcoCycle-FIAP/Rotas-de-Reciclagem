@@ -2,7 +2,12 @@ package br.com.fiap.rotasdereciclagem.service;
 
 import java.util.Optional;
 
+import br.com.fiap.rotasdereciclagem.dto.CaminhaoExibicaoDTO;
 import br.com.fiap.rotasdereciclagem.dto.NotificacaoExibicaoDTO;
+import br.com.fiap.rotasdereciclagem.dto.RotaCadastroDTO;
+import br.com.fiap.rotasdereciclagem.exception.RotaNaoEncontradoException;
+import br.com.fiap.rotasdereciclagem.model.Caminhao;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,8 +23,13 @@ public class RotaService {
     @Autowired
     private RotaRepository rotaRepository;
 
-    public RotaExibicaoDTO gravar(Rota rota){
-        return new RotaExibicaoDTO((rotaRepository.save(rota)));
+    public RotaExibicaoDTO gravar(RotaCadastroDTO rotaDTO){
+
+        Rota rota = new Rota();
+        BeanUtils.copyProperties(rotaDTO, rota);
+
+        Rota rotaSalva = rotaRepository.save(rota);
+        return new RotaExibicaoDTO(rotaSalva);
     }
 
     public Page<RotaExibicaoDTO> listarTodos(Pageable paginacao){
@@ -32,7 +42,7 @@ public class RotaService {
         if (RotaOptional.isPresent()) {
             return new RotaExibicaoDTO(RotaOptional.get());
         } else {
-            throw new RuntimeException("Não foi encontrada uma rota com esse id.");
+            throw new RotaNaoEncontradoException("Não foi encontrada uma rota com esse id.");
         }
     }
 
@@ -42,13 +52,13 @@ public class RotaService {
         if (RotaOptional.isPresent()) {
             return new RotaExibicaoDTO(RotaOptional.get());
         } else {
-            throw new RuntimeException("Não foi encontrada uma rota que passa por esses pontos de coleta.");
+            throw new RotaNaoEncontradoException("Não foi encontrada uma rota que passa por esses pontos de coleta.");
         }
     }
 
     public void deletarPorId(Long id) {
         if (!rotaRepository.existsById(id)) {
-            throw new RuntimeException("Rota não encontrada.");
+            throw new RotaNaoEncontradoException("Rota não encontrada.");
         }
         rotaRepository.deleteById(id);
     }
@@ -60,7 +70,7 @@ public class RotaService {
         if(rotaOptional.isPresent()){
             return new RotaExibicaoDTO(rotaRepository.save(rota));
         }else{
-            throw new RuntimeException("Rota não encontrada.");
+            throw new RotaNaoEncontradoException("Rota não encontrada.");
         }
     }
 }

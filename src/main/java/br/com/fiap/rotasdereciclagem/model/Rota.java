@@ -31,43 +31,4 @@ public class Rota {
     @Column(name = "id_caminhao")
     private Long idCaminhao;
 
-    public Long getIdRota() {
-        return idRota;
-    }
-
-    public void setIdRota(Long idRota) {
-        this.idRota = idRota;
-    }
-
-    public String getPontosDeColeta() {
-        return pontosDeColeta;
-    }
-
-    public void setPontosDeColeta(String pontosDeColeta) {
-        this.pontosDeColeta = pontosDeColeta;
-    }
-
-    public Date getHorarioInicial() {
-        return horarioInicial;
-    }
-
-    public void setHorarioInicial(Date horarioInicial) {
-        this.horarioInicial = horarioInicial;
-    }
-
-    public Date getHorarioFinal() {
-        return horarioFinal;
-    }
-
-    public void setHorarioFinal(Date horarioFinal) {
-        this.horarioFinal = horarioFinal;
-    }
-
-    public Long getIdCaminhao() {
-        return idCaminhao;
-    }
-
-    public void setIdCaminhao(Long idCaminhao) {
-        this.idCaminhao = idCaminhao;
-    }
 }

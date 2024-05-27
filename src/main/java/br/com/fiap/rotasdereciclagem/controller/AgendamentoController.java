@@ -1,8 +1,10 @@
 package br.com.fiap.rotasdereciclagem.controller;
 
+import br.com.fiap.rotasdereciclagem.dto.AgendamentoCadastroDTO;
 import br.com.fiap.rotasdereciclagem.dto.AgendamentoExibicaoDTO;
 import br.com.fiap.rotasdereciclagem.model.Agendamento;
 import br.com.fiap.rotasdereciclagem.service.AgendamentoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,8 +22,8 @@ public class AgendamentoController {
 
     @PostMapping("/agendamentos")
     @ResponseStatus(HttpStatus.CREATED)
-    public AgendamentoExibicaoDTO gravar (@RequestBody Agendamento agendamento){
-        return agendamentoService.gravar(agendamento);
+    public AgendamentoExibicaoDTO gravar (@RequestBody @Valid AgendamentoCadastroDTO agendamentoDTO){
+        return agendamentoService.gravar(agendamentoDTO);
     }
 
     @GetMapping("/agendamentos")

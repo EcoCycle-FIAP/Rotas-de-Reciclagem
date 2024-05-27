@@ -2,6 +2,12 @@ package br.com.fiap.rotasdereciclagem.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_moradores")
@@ -10,11 +16,16 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Morador {
+public class Morador implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MORADORES")
-    @SequenceGenerator(name = "SEQ_MORADORES", sequenceName = "SEQ_MORADORES", allocationSize = 1)
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "SEQ_MORADORES")
+    @SequenceGenerator(
+            name = "SEQ_MORADORES",
+            sequenceName = "SEQ_MORADORES",
+            allocationSize = 1)
     @Column(name = "id_morador")
     private Long idMorador;
 
@@ -30,68 +41,53 @@ public class Morador {
 
     private String email;
     private String telefone;
+    private String senha;
 
-    public Long getIdMorador() {
-        return idMorador;
+    @Enumerated(EnumType.STRING)
+    private Roles role;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        System.out.println(this.role);
+        if (this.role == Roles.ADMIN) {
+            System.out.println("admin");
+            return List.of(
+                    new SimpleGrantedAuthority("ROLE_ADMIN"),
+                    new SimpleGrantedAuthority("ROLE_USER")
+            );
+        } else {
+            System.out.println("user");
+            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        }
     }
 
-    public void setIdMorador(Long idMorador) {
-        this.idMorador = idMorador;
+    @Override
+    public String getPassword() {
+        return this.senha;
     }
 
-    public String getNome() {
-        return nome;
+    @Override
+    public String getUsername() {
+        return this.email;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public String getEndereco() {
-        return endereco;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public Long getEndNumero() {
-        return endNumero;
-    }
-
-    public void setEndNumero(Long endNumero) {
-        this.endNumero = endNumero;
-    }
-
-    public String getEndComplemento() {
-        return endComplemento;
-    }
-
-    public void setEndComplemento(String endComplemento) {
-        this.endComplemento = endComplemento;
-    }
-
-    public String getEndBairro() {
-        return endBairro;
-    }
-
-    public void setEndBairro(String endBairro) {
-        this.endBairro = endBairro;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

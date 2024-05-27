@@ -1,8 +1,10 @@
 package br.com.fiap.rotasdereciclagem.controller;
 
+import br.com.fiap.rotasdereciclagem.dto.NotificacaoCadastroDTO;
 import br.com.fiap.rotasdereciclagem.dto.NotificacaoExibicaoDTO;
 import br.com.fiap.rotasdereciclagem.model.Notificacao;
 import br.com.fiap.rotasdereciclagem.service.NotificacaoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,8 +22,8 @@ public class NotificacaoController {
 
     @PostMapping("/notificacoes")
     @ResponseStatus(HttpStatus.CREATED)
-    public NotificacaoExibicaoDTO gravar(@RequestBody Notificacao notificacao){
-        return notificacaoService.gravar(notificacao);
+    public NotificacaoExibicaoDTO gravar(@RequestBody @Valid NotificacaoCadastroDTO notificacaoDTO){
+        return notificacaoService.gravar(notificacaoDTO);
     }
 
     @GetMapping("/notificacoes")
