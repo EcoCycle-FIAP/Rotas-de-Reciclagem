@@ -26,3 +26,13 @@ jobs:
       # Step 3: Build the project with Maven
       - name: Build and Run Tests with Maven
         run: mvn clean install
+        
+      - name: Build and Push Docker Image
+        uses: mr-smithers-excellent/docker-build-push@v6
+        with:
+          image: guiindiciate/springboot-images-rotasdereciclagem
+          tags: latest
+          registry: docker.io
+          dockerfile: Dockerfile
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
