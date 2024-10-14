@@ -117,6 +117,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>springboot-images-rotasdereciclagem</finalName>
 	</build>
 
 </project>
