@@ -27,7 +27,7 @@ jobs:
       - name: Build and Run Tests with Maven
         run: mvn clean install
         
-      - name: Build and Push Docker Image GitHub
+      - name: Build and Push Docker Image
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
           image: guiindiciate/springboot-images-rotasdereciclagem
