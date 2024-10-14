@@ -11,6 +11,19 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    services:
+      oracle-db:
+        image: gvenzl/oracle-xe:21.3.0-slim
+        ports:
+          - 1521:1521
+        env:
+          ORACLE_PASSWORD: 081100
+        options: >-
+          --health-cmd="curl --fail http://localhost:8080 || exit 1"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
     steps:
       # Step 1: Checkout the code
       - uses: actions/checkout@v4
@@ -26,7 +39,20 @@ jobs:
       # Step 3: Build the project with Maven
       - name: Build and Run Tests with Maven
         run: mvn clean install
-        
+
+      # Step 4: Build Docker image
+      - name: Build Docker Image
+        run: docker build -t guiindiciate/springboot-images-rotasdereciclagem:latest .
+
+      # Step 5: Start services with Docker Compose
+      - name: Start Services with Docker Compose
+        run: docker-compose up --build -d
+
+      # Step 6: Run Tests (opcional)
+      - name: Run Tests
+        run: mvn test
+
+      # Step 7: Push Docker Image
       - name: Build & Push Docker Image
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
@@ -36,3 +62,7 @@ jobs:
           dockerfile: Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Step 8: Stop and remove services
+      - name: Stop and Remove Services
+        run: docker-compose down
