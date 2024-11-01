@@ -31,4 +31,5 @@ public record MoradorCadastroDTO(
         @Size(min = 6, max = 20, message = "A senha deve conter entre 6 e 20 caracteres!")
         String senha
 ) {
+
 }

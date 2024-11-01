@@ -12,9 +12,8 @@ public record LoginDTO(
 
         @NotBlank(message = "A senha é obrigatório")
         @Size(min = 6, max = 20, message = "A senha deve conter entre 6 e 20 caracteres!")
-        String senha,
+        String senha
 
-        String token
 ) {
 
 }

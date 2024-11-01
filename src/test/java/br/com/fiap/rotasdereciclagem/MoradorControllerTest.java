@@ -1,4 +1,4 @@
-package br.com.fiap.rotasdereciclagem.controller;
+package br.com.fiap.rotasdereciclagem;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
